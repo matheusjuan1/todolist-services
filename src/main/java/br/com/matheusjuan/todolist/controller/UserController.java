@@ -22,7 +22,7 @@ public class UserController {
     @PostMapping("/")
     public ResponseEntity create(@RequestBody UserModel userModel) {
         var user = this.userRepository.findByUsername(userModel.getUsername());
-        
+
         if (user != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário Já existe");
         }
