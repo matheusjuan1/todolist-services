@@ -32,7 +32,7 @@ mvn spring-boot:run
 
 # O servidor inciará na porta:8080 - acesse http://localhost:8080 
 ```
-## 🗎 Documentação
+## 🗂️ Documentação
 Você pode acessar a documentação interativa da API utilizando o [Swagger UI](https://swagger.io/tools/swagger-ui/).
 #### Passos
 1. Certifique-se de que a API está em execução localmente
