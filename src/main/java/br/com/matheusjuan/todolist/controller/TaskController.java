@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.matheusjuan.todolist.model.TaskModel;
 import br.com.matheusjuan.todolist.repository.ITaskRepository;
 import br.com.matheusjuan.todolist.util.Util;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -27,6 +30,11 @@ public class TaskController {
     @Autowired
     private ITaskRepository taskRepository;
 
+    @Operation(description = "Cria tarefa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna tarefa criada"),
+            @ApiResponse(responseCode = "400", description = "A data de início/data de término deve ser maior do que a data atual ou A data de início deve ser menor do que a data de término")
+    })
     @PostMapping("/")
     public ResponseEntity create(@RequestBody TaskModel taskModel, HttpServletRequest request) {
         var idUser = request.getAttribute("idUser");
@@ -36,7 +44,7 @@ public class TaskController {
 
         if (currentDate.isAfter(taskModel.getStartAt()) || currentDate.isAfter(taskModel.getEndAt())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("A data de início / data de término deve ser maior do que a data atual");
+                    .body("A data de início/data de término deve ser maior do que a data atual");
         }
 
         if (taskModel.getStartAt().isAfter(taskModel.getEndAt())) {
@@ -48,6 +56,10 @@ public class TaskController {
         return ResponseEntity.ok().body(task);
     }
 
+    @Operation(description = "Lista tarefas do usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna tarefas do usuário")
+    })
     @GetMapping("/")
     public List<TaskModel> list(HttpServletRequest request) {
         var idUser = request.getAttribute("idUser");
@@ -55,6 +67,11 @@ public class TaskController {
         return tasks;
     }
 
+    @Operation(description = "Edita a tarefa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna tarefa editada"),
+            @ApiResponse(responseCode = "400", description = "Tarefa não encontrada ou Usuário não tem permissão para alterar essa tarefa"),
+    })
     @PutMapping("/{id}")
     public ResponseEntity update(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id) {
         var task = this.taskRepository.findById(id).orElse(null);
