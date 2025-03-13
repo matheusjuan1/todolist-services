@@ -1,4 +1,4 @@
-package br.com.matheusjuan.todolist.errors;
+package br.com.matheusjuan.todolist.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
