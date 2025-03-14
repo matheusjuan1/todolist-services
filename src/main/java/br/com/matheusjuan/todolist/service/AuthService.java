@@ -22,7 +22,7 @@ public class AuthService {
     public UserResponseDTO registerUser(UserModel user) {
 
         if (userRepository.findByUsername(user.getUsername()) != null) {
-            throw new AuthExceptions.UserAlreadyExistsException("O username já está em uso!");
+            throw new AuthExceptions.UserAlreadyExistsException();
         }
 
         var passwordHashred = BCrypt.withDefaults().hashToString(12, user.getPassword().toCharArray());
