@@ -13,10 +13,8 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JWTService {
 
-    // @Value("${jwt.secret}")
     private static String SECRET_KEY = "jK8mBvTzTqX2dGk9pCsNfW5YtRdLhM7s";
 
-    // @Value("${jwt.expiration}")
     private static long EXPIRATION_TIME = 86400000;
 
     private static Key getSigningKey() {

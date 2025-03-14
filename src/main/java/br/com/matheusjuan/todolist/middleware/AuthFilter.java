@@ -30,7 +30,6 @@ public class AuthFilter extends OncePerRequestFilter {
 
         if (servletPath.startsWith("/auth")) {
             filterChain.doFilter(request, response);
-            System.out.println("passou por aqui");
             return;
         }
 
