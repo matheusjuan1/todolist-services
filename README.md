@@ -15,6 +15,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Java](https://www.java.com/pt-BR/)
 - [Spring boot](https://spring.io/projects/spring-boot)
 - [Lombok](https://projectlombok.org/)
+- [JWT](https://github.com/jwtk/jjwt)
 - [H2 Database](https://www.h2database.com/html/main.html)
 - [Bcrypt](https://github.com/patrickfav/bcrypt)
 
