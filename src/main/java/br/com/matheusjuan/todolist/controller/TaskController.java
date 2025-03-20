@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.matheusjuan.todolist.model.TaskModel;
-import br.com.matheusjuan.todolist.repository.ITaskRepository;
+import br.com.matheusjuan.todolist.model.Task;
+import br.com.matheusjuan.todolist.repository.TaskRepository;
 import br.com.matheusjuan.todolist.util.Util;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class TaskController {
 
     @Autowired
-    private ITaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
     @Operation(description = "Cria tarefa")
     @ApiResponses(value = {
@@ -36,7 +36,7 @@ public class TaskController {
             @ApiResponse(responseCode = "400", description = "A data de início/data de término deve ser maior do que a data atual ou A data de início deve ser menor do que a data de término")
     })
     @PostMapping("/")
-    public ResponseEntity create(@RequestBody TaskModel taskModel, HttpServletRequest request) {
+    public ResponseEntity create(@RequestBody Task taskModel, HttpServletRequest request) {
         var idUser = request.getAttribute("idUser");
         taskModel.setIdUser((UUID) idUser);
 
@@ -61,7 +61,7 @@ public class TaskController {
             @ApiResponse(responseCode = "200", description = "Retorna tarefas do usuário")
     })
     @GetMapping("/")
-    public List<TaskModel> list(HttpServletRequest request) {
+    public List<Task> list(HttpServletRequest request) {
         var idUser = request.getAttribute("idUser");
         var tasks = this.taskRepository.findByIdUser((UUID) idUser);
         return tasks;
@@ -73,7 +73,7 @@ public class TaskController {
             @ApiResponse(responseCode = "400", description = "Tarefa não encontrada ou Usuário não tem permissão para alterar essa tarefa"),
     })
     @PutMapping("/{id}")
-    public ResponseEntity update(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id) {
+    public ResponseEntity update(@RequestBody Task taskModel, HttpServletRequest request, @PathVariable UUID id) {
         var task = this.taskRepository.findById(id).orElse(null);
 
         if (task == null) {
