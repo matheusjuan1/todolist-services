@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Data
 @Entity(name = "tb_user")
-public class UserModel {
+public class User {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -31,6 +31,12 @@ public class UserModel {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    public User(String username, String name, String password) {
+        this.username = username;
+        this.name = name;
+        this.password = password;
+    }
 
     public void setUsername(String username) throws Exception {
         if (username.length() > 20) {
