@@ -1,4 +1,4 @@
-package br.com.matheusjuan.todolist.dto.error;
+package br.com.matheusjuan.todolist.model.dto.error;
 
 public record ErrorResponseDTO(
         int errorCode,

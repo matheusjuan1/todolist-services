@@ -6,7 +6,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.com.matheusjuan.todolist.dto.error.ErrorResponseDTO;
+import br.com.matheusjuan.todolist.model.dto.error.ErrorResponseDTO;
 import br.com.matheusjuan.todolist.error.AuthExceptions.JwtAuthenticationException;
 import br.com.matheusjuan.todolist.error.AuthExceptions.UserAlreadyExistsException;
 import br.com.matheusjuan.todolist.error.AuthExceptions.UserNotFoundException;

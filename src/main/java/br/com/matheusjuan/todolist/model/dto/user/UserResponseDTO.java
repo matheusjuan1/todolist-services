@@ -1,4 +1,4 @@
-package br.com.matheusjuan.todolist.dto.user;
+package br.com.matheusjuan.todolist.model.dto.user;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

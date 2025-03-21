@@ -1,4 +1,4 @@
-package br.com.matheusjuan.todolist.dto.auth;
+package br.com.matheusjuan.todolist.model.dto.auth;
 
 public record RegisterRequestDTO(
         String name,

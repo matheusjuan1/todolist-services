@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import br.com.matheusjuan.todolist.dto.auth.RegisterRequestDTO;
+import br.com.matheusjuan.todolist.model.dto.auth.RegisterRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

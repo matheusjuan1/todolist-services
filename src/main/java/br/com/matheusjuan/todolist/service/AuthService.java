@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import br.com.matheusjuan.todolist.dto.auth.AuthRequestDTO;
-import br.com.matheusjuan.todolist.dto.auth.RegisterRequestDTO;
-import br.com.matheusjuan.todolist.dto.user.UserResponseDTO;
+import br.com.matheusjuan.todolist.model.dto.auth.AuthRequestDTO;
+import br.com.matheusjuan.todolist.model.dto.auth.RegisterRequestDTO;
+import br.com.matheusjuan.todolist.model.dto.user.UserResponseDTO;
 import br.com.matheusjuan.todolist.error.AuthExceptions;
 import br.com.matheusjuan.todolist.model.User;
 import br.com.matheusjuan.todolist.repository.UserRepository;
