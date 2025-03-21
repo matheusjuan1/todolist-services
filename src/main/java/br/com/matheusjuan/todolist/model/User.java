@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import br.com.matheusjuan.todolist.dto.auth.RegisterRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,10 +36,17 @@ public class User {
     public User() {
     }
 
-    public User(String username, String name, String password) {
+    private User(String username, String name, String password) {
         this.username = username;
         this.name = name;
         this.password = password;
+    }
+
+    public static User fromDTO(RegisterRequestDTO dto, String passwordHashred) {
+        return new User(
+                dto.username(),
+                dto.name(),
+                passwordHashred);
     }
 
     public void setUsername(String username) throws Exception {

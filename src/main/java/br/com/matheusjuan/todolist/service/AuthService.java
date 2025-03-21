@@ -26,12 +26,9 @@ public class AuthService {
             throw new AuthExceptions.UserAlreadyExistsException();
         }
 
-        var passwordHashred = BCrypt.withDefaults().hashToString(12, registerRequest.password().toCharArray());
+        String passwordHashred = BCrypt.withDefaults().hashToString(12, registerRequest.password().toCharArray());
 
-        User user = new User(
-                registerRequest.username(),
-                registerRequest.name(),
-                passwordHashred.toString());
+        User user = User.fromDTO(registerRequest, passwordHashred);
 
         User newUser = userRepository.save(user);
 
