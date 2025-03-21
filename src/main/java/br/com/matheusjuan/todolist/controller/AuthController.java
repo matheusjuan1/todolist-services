@@ -25,7 +25,7 @@ public class AuthController {
     @Operation(description = "Cria usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Retorna usuário criado"),
-            @ApiResponse(responseCode = "400", description = "Usuário já existe")
+            @ApiResponse(responseCode = "409", description = "Usuário já existe")
     })
     @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> register(@RequestBody RegisterRequestDTO registerRequest) {
@@ -35,6 +35,10 @@ public class AuthController {
     }
 
     @Operation(description = "Autentica usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna usuário autenticado"),
+            @ApiResponse(responseCode = "404", description = "Credenciais inválidas")
+    })
     @PostMapping("/login")
     public ResponseEntity<UserResponseDTO> auth(@RequestBody AuthRequestDTO userRequest) {
         UserResponseDTO user = authService.authenticate(userRequest);
