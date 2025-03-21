@@ -22,18 +22,16 @@ public class AuthService {
 
     public UserResponseDTO registerUser(RegisterRequestDTO registerRequest) {
 
-        User user = new User(
-                registerRequest.username(),
-                registerRequest.name(),
-                registerRequest.password());
-
-        if (userRepository.findByUsername(user.getUsername()) != null) {
+        if (userRepository.findByUsername(registerRequest.username()) != null) {
             throw new AuthExceptions.UserAlreadyExistsException();
         }
 
-        var passwordHashred = BCrypt.withDefaults().hashToString(12, user.getPassword().toCharArray());
+        var passwordHashred = BCrypt.withDefaults().hashToString(12, registerRequest.password().toCharArray());
 
-        user.setPassword(passwordHashred);
+        User user = new User(
+                registerRequest.username(),
+                registerRequest.name(),
+                passwordHashred.toString());
 
         User newUser = userRepository.save(user);
 
