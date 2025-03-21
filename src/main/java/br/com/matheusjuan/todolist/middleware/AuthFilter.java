@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 
+import br.com.matheusjuan.todolist.error.AuthExceptions;
 import br.com.matheusjuan.todolist.service.JWTService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -34,14 +34,12 @@ public class AuthFilter extends OncePerRequestFilter {
         }
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Token não encontrado");
-            return;
+            throw new AuthExceptions.JwtAuthenticationException();
         }
 
         String token = authHeader.substring(7);
         if (!jwtService.validateToken(token)) {
-            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Token inválido");
-            return;
+            throw new AuthExceptions.JwtAuthenticationException();
         }
 
         String userId = jwtService.getUserIdFromToken(token);
