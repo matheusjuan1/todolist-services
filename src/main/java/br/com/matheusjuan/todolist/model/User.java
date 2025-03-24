@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import br.com.matheusjuan.todolist.model.dto.auth.RegisterRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Entity(name = "tb_user")
-public class UserModel {
+public class User {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -31,6 +32,22 @@ public class UserModel {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    public User() {
+    }
+
+    private User(String username, String name, String password) {
+        this.username = username;
+        this.name = name;
+        this.password = password;
+    }
+
+    public static User fromDTO(RegisterRequestDTO dto, String passwordHashred) {
+        return new User(
+                dto.username(),
+                dto.name(),
+                passwordHashred);
+    }
 
     public void setUsername(String username) throws Exception {
         if (username.length() > 20) {

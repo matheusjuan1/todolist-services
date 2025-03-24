@@ -4,9 +4,9 @@ import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
 
-import br.com.matheusjuan.todolist.model.UserModel;
+import br.com.matheusjuan.todolist.model.User;
 
-public interface UserRepository extends CrudRepository<UserModel, UUID> {
+public interface UserRepository extends CrudRepository<User, UUID> {
 
-    UserModel findByUsername(String userName);
+    User findByUsername(String userName);
 }
