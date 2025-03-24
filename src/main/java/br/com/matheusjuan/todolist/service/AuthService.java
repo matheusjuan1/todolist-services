@@ -28,7 +28,7 @@ public class AuthService {
 
         String passwordHashred = BCrypt.withDefaults().hashToString(12, registerRequest.password().toCharArray());
 
-        User user = User.fromDTO(registerRequest, passwordHashred);
+        User user = new User(registerRequest, passwordHashred);
 
         User newUser = userRepository.save(user);
 

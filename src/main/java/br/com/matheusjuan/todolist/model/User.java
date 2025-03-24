@@ -36,17 +36,10 @@ public class User {
     public User() {
     }
 
-    private User(String username, String name, String password) {
-        this.username = username;
-        this.name = name;
-        this.password = password;
-    }
-
-    public static User fromDTO(RegisterRequestDTO dto, String passwordHashred) {
-        return new User(
-                dto.username(),
-                dto.name(),
-                passwordHashred);
+    public User(RegisterRequestDTO dto, String passwordHashred) {
+        this.username = dto.username();
+        this.name = dto.name();
+        this.password = passwordHashred;
     }
 
     public void setUsername(String username) throws Exception {
