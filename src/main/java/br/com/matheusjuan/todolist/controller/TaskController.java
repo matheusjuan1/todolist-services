@@ -1,6 +1,5 @@
 package br.com.matheusjuan.todolist.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.matheusjuan.todolist.model.Task;
+import br.com.matheusjuan.todolist.model.dto.task.TaskRequestDTO;
+import br.com.matheusjuan.todolist.service.TaskService;
 import br.com.matheusjuan.todolist.repository.TaskRepository;
 import br.com.matheusjuan.todolist.util.Util;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,11 +25,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("/api/tasks")
 public class TaskController {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private TaskService taskService;
 
     @Operation(description = "Cria tarefa")
     @ApiResponses(value = {
@@ -36,23 +40,10 @@ public class TaskController {
             @ApiResponse(responseCode = "400", description = "A data de início/data de término deve ser maior do que a data atual ou A data de início deve ser menor do que a data de término")
     })
     @PostMapping("/")
-    public ResponseEntity create(@RequestBody Task taskModel, HttpServletRequest request) {
-        var idUser = request.getAttribute("idUser");
-        taskModel.setIdUser((UUID) idUser);
+    public ResponseEntity<Task> create(@RequestBody TaskRequestDTO taskRequest, HttpServletRequest request) {
+        UUID idUser = (UUID) request.getAttribute("idUser");
+        Task task = this.taskService.create(taskRequest, idUser);
 
-        var currentDate = LocalDateTime.now();
-
-        if (currentDate.isAfter(taskModel.getStartAt()) || currentDate.isAfter(taskModel.getEndAt())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("A data de início/data de término deve ser maior do que a data atual");
-        }
-
-        if (taskModel.getStartAt().isAfter(taskModel.getEndAt())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("A data de início deve ser menor do que a data de término");
-        }
-
-        var task = this.taskRepository.save(taskModel);
         return ResponseEntity.ok().body(task);
     }
 

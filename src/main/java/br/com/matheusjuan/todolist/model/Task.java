@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import br.com.matheusjuan.todolist.model.dto.task.TaskRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,6 +39,18 @@ public class Task {
 
     @Version
     private int version;
+
+    public Task() {
+    }
+
+    public Task(TaskRequestDTO dto, UUID idUser) {
+        this.title = dto.title();
+        this.description = dto.description();
+        this.startAt = dto.endAt();
+        this.endAt = dto.endAt();
+        this.priority = dto.priority();
+        this.idUser = idUser;
+    }
 
     public void setTitle(String title) throws Exception {
         if (title.length() > 50) {
