@@ -18,7 +18,7 @@ public class AuthService {
     private UserRepository userRepository;
 
     @Autowired
-    private JWTService jwtService;
+    private JwtService jwtService;
 
     public UserResponseDTO registerUser(RegisterRequestDTO registerRequest) {
 
