@@ -24,14 +24,14 @@ public class AuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-
-        var servletPath = request.getServletPath();
+        String servletPath = request.getServletPath();
 
         if (servletPath.startsWith("/auth")) {
             filterChain.doFilter(request, response);
             return;
         }
+
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);    
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new AuthExceptions.JwtAuthenticationException();

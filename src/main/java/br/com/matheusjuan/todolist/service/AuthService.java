@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import at.favre.lib.crypto.bcrypt.BCrypt.Result;
 import br.com.matheusjuan.todolist.model.dto.auth.AuthRequestDTO;
 import br.com.matheusjuan.todolist.model.dto.auth.RegisterRequestDTO;
 import br.com.matheusjuan.todolist.model.dto.user.UserResponseDTO;
-import br.com.matheusjuan.todolist.error.AuthExceptions;
+import br.com.matheusjuan.todolist.error.UserExceptions.UserAlreadyExistsException;
+import br.com.matheusjuan.todolist.error.UserExceptions.UserNotFoundException;
 import br.com.matheusjuan.todolist.model.User;
 import br.com.matheusjuan.todolist.repository.UserRepository;
 
@@ -22,13 +24,13 @@ public class AuthService {
 
     public UserResponseDTO registerUser(RegisterRequestDTO registerRequest) {
 
-        if (userRepository.findByUsername(registerRequest.username()) != null) {
-            throw new AuthExceptions.UserAlreadyExistsException();
+        if (userRepository.findByUsername(registerRequest.username()).isPresent()) {
+            throw new UserAlreadyExistsException();
         }
 
         String passwordHashred = BCrypt.withDefaults().hashToString(12, registerRequest.password().toCharArray());
 
-        User user = User.fromDTO(registerRequest, passwordHashred);
+        User user = new User(registerRequest, passwordHashred);
 
         User newUser = userRepository.save(user);
 
@@ -43,16 +45,13 @@ public class AuthService {
     }
 
     public UserResponseDTO authenticate(AuthRequestDTO authRequest) {
-        User user = userRepository.findByUsername(authRequest.username());
+        User user = userRepository.findByUsername(authRequest.username())
+                .orElseThrow(() -> new UserNotFoundException("Credenciais inválidas"));
 
-        if (user == null) {
-            throw new AuthExceptions.UserNotFoundException("Credenciais inválidas");
-        }
-
-        var passwordVerify = BCrypt.verifyer().verify(authRequest.password().toCharArray(), user.getPassword());
+        Result passwordVerify = BCrypt.verifyer().verify(authRequest.password().toCharArray(), user.getPassword());
 
         if (!passwordVerify.verified) {
-            throw new AuthExceptions.UserNotFoundException("Credenciais inválidas");
+            throw new UserNotFoundException("Credenciais inválidas");
         }
 
         String token = jwtService.generateToken(user.getId());
