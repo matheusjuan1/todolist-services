@@ -8,8 +8,8 @@ import at.favre.lib.crypto.bcrypt.BCrypt.Result;
 import br.com.matheusjuan.todolist.model.dto.auth.AuthRequestDTO;
 import br.com.matheusjuan.todolist.model.dto.auth.RegisterRequestDTO;
 import br.com.matheusjuan.todolist.model.dto.user.UserResponseDTO;
-import br.com.matheusjuan.todolist.error.AuthExceptions.UserAlreadyExistsException;
-import br.com.matheusjuan.todolist.error.AuthExceptions.UserNotFoundException;
+import br.com.matheusjuan.todolist.error.UserExceptions.UserAlreadyExistsException;
+import br.com.matheusjuan.todolist.error.UserExceptions.UserNotFoundException;
 import br.com.matheusjuan.todolist.model.User;
 import br.com.matheusjuan.todolist.repository.UserRepository;
 
