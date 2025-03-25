@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.matheusjuan.todolist.error.TaskExceptions;
+import br.com.matheusjuan.todolist.error.UserExceptions;
 import br.com.matheusjuan.todolist.model.Task;
 import br.com.matheusjuan.todolist.model.dto.task.TaskRequestDTO;
 import br.com.matheusjuan.todolist.repository.TaskRepository;
+import br.com.matheusjuan.todolist.util.Util;
 
 @Service
 public class TaskService {
@@ -42,6 +44,20 @@ public class TaskService {
         List<Task> list = this.taskRepository.findByIdUser(idUser).orElse(new ArrayList<>());
 
         return list;
+    }
+
+    public Task update(Task taskRequest, UUID idTask, UUID idUser) {
+        Task task = this.taskRepository.findById(idTask)
+                .orElseThrow(() -> new TaskExceptions.TaskNotFoundException());
+
+        if (!task.getIdUser().equals(idUser)) {
+            throw new UserExceptions.UserUnauthorizedException("Usuário não tem permissão para alterar essa tarefa");
+        }
+
+        Util.copyNonNullProperties(taskRequest, task);
+        Task taskUpdated = this.taskRepository.save(task);
+
+        return taskUpdated;
     }
 
 }

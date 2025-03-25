@@ -2,6 +2,12 @@ package br.com.matheusjuan.todolist.error;
 
 public class TaskExceptions {
 
+    public static class TaskNotFoundException extends RuntimeException {
+        public TaskNotFoundException() {
+            super("Tarefa não encontrada");
+        }
+    }
+
     public static class TaskDateException extends RuntimeException {
         public TaskDateException() {
             super("Data inválida");

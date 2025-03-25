@@ -12,9 +12,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Version;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity(name = "tb_task")
+@NoArgsConstructor
 public class Task {
 
     @Id
@@ -40,8 +42,6 @@ public class Task {
     @Version
     private int version;
 
-    public Task() {
-    }
 
     public Task(TaskRequestDTO dto, UUID idUser) {
         this.title = dto.title();
