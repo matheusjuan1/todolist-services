@@ -10,6 +10,8 @@ import br.com.matheusjuan.todolist.model.dto.auth.RegisterRequestDTO;
 import jakarta.persistence.EntityManager;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Optional;
+
 @DataJpaTest
 @ActiveProfiles("test")
 public class UserRepositoryTest {
@@ -26,23 +28,23 @@ public class UserRepositoryTest {
         RegisterRequestDTO data = new RegisterRequestDTO("Matheus", username, "12345");
         this.createUser(data);
         
-        User result = this.userRepository.findByUsername(username);
+        Optional<User> result = this.userRepository.findByUsername(username);
 
-        assertThat(result != null).isTrue();
+        assertThat(result.isPresent()).isTrue();
     }
 
     @Test
     void findByUsernameError() {
         String username = "matheusteste";
         
-        User result = this.userRepository.findByUsername(username);
+        Optional<User> result = this.userRepository.findByUsername(username);
 
-        assertThat(result == null).isTrue();
+        assertThat(result.isEmpty()).isTrue();
     }
 
 
     private User createUser(RegisterRequestDTO data) {
-        User newUser = User.fromDTO(data, "12345");
+        User newUser = new User(data, "12345");
         this.entityManager.persist(newUser);
         return newUser;
     }
