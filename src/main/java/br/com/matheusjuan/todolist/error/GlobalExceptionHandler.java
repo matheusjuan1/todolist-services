@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.com.matheusjuan.todolist.model.dto.error.ErrorResponseDTO;
 import br.com.matheusjuan.todolist.error.AuthExceptions.JwtAuthenticationException;
-import br.com.matheusjuan.todolist.error.AuthExceptions.UserAlreadyExistsException;
-import br.com.matheusjuan.todolist.error.AuthExceptions.UserNotFoundException;
+import br.com.matheusjuan.todolist.error.UserExceptions.UserAlreadyExistsException;
+import br.com.matheusjuan.todolist.error.UserExceptions.UserNotFoundException;
 import br.com.matheusjuan.todolist.error.TaskExceptions.TaskDateException;
 import br.com.matheusjuan.todolist.error.TaskExceptions.TaskNotFoundException;
 import br.com.matheusjuan.todolist.error.TaskExceptions.TaskPriorityException;
@@ -31,31 +31,31 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
-    // AUTH - USER EXCEPTIONS
+    // AUTH EXCEPTIONS
 
     @ExceptionHandler(JwtAuthenticationException.class)
     public ResponseEntity<ErrorResponseDTO> handleJwtAuthenticationException(JwtAuthenticationException e) {
-        ErrorResponseDTO error = new ErrorResponseDTO(100, e.getMessage(), "INVALID_JWT");
+        ErrorResponseDTO error = new ErrorResponseDTO(1000, e.getMessage(), "INVALID_JWT");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
+    // USER EXCEPTIONS
+
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDTO> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
-        ErrorResponseDTO error = new ErrorResponseDTO(200, e.getMessage(), "USER_ALREADY_EXISTS");
+        ErrorResponseDTO error = new ErrorResponseDTO(2000, e.getMessage(), "USER_ALREADY_EXISTS");
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleUserNotFoundException(UserNotFoundException e) {
-        ErrorResponseDTO error = new ErrorResponseDTO(201, e.getMessage(), "USER_NOT_FOUND");
+        ErrorResponseDTO error = new ErrorResponseDTO(2001, e.getMessage(), "USER_NOT_FOUND");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    // USER EXCEPTIONS
-
     @ExceptionHandler(UserUnauthorizedException.class)
     public ResponseEntity<ErrorResponseDTO> handleUserUnauthorizedException(UserUnauthorizedException e) {
-        ErrorResponseDTO error = new ErrorResponseDTO(202, e.getMessage(), "USER_UNAUTHORIZED");
+        ErrorResponseDTO error = new ErrorResponseDTO(2002, e.getMessage(), "USER_UNAUTHORIZED");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
@@ -63,19 +63,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(TaskNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleTaskNotFoundException(TaskNotFoundException e) {
-        ErrorResponseDTO error = new ErrorResponseDTO(300, e.getMessage(), "TASK_NOT_FOUND");
+        ErrorResponseDTO error = new ErrorResponseDTO(3000, e.getMessage(), "TASK_NOT_FOUND");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(TaskDateException.class)
     public ResponseEntity<ErrorResponseDTO> handleTaskDateException(TaskDateException e) {
-        ErrorResponseDTO error = new ErrorResponseDTO(301, e.getMessage(), "INVALID_DATE");
+        ErrorResponseDTO error = new ErrorResponseDTO(3001, e.getMessage(), "TASK_INVALID_DATE");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @ExceptionHandler(TaskPriorityException.class)
     public ResponseEntity<ErrorResponseDTO> handleTaskPriorityException(TaskPriorityException e) {
-        ErrorResponseDTO error = new ErrorResponseDTO(302, e.getMessage(), "INVALID_PRIORITY");
+        ErrorResponseDTO error = new ErrorResponseDTO(3002, e.getMessage(), "TASK_INVALID_PRIORITY");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }
