@@ -11,9 +11,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity(name = "tb_user")
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -33,20 +35,11 @@ public class User {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    public User() {
-    }
 
-    private User(String username, String name, String password) {
-        this.username = username;
-        this.name = name;
-        this.password = password;
-    }
-
-    public static User fromDTO(RegisterRequestDTO dto, String passwordHashred) {
-        return new User(
-                dto.username(),
-                dto.name(),
-                passwordHashred);
+    public User(RegisterRequestDTO dto, String passwordHashred) {
+        this.username = dto.username();
+        this.name = dto.name();
+        this.password = passwordHashred;
     }
 
     public void setUsername(String username) throws Exception {

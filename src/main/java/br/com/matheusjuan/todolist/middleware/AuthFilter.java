@@ -8,7 +8,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.http.HttpHeaders;
 
 import br.com.matheusjuan.todolist.error.AuthExceptions;
-import br.com.matheusjuan.todolist.service.JWTService;
+import br.com.matheusjuan.todolist.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,20 +18,20 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AuthFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JWTService jwtService;
+    private JwtService jwtService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-
-        var servletPath = request.getServletPath();
+        String servletPath = request.getServletPath();
 
         if (servletPath.startsWith("/auth")) {
             filterChain.doFilter(request, response);
             return;
         }
+
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);    
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new AuthExceptions.JwtAuthenticationException();

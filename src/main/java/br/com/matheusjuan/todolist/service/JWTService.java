@@ -6,15 +6,15 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.matheusjuan.todolist.config.JWTConfig;
+import br.com.matheusjuan.todolist.config.JwtConfig;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
-public class JWTService {
+public class JwtService {
 
     @Autowired
-    private JWTConfig config;
+    private JwtConfig config;
 
     public String generateToken(UUID userId) {
         return Jwts.builder()
