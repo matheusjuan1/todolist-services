@@ -52,10 +52,11 @@ public class TaskController {
             @ApiResponse(responseCode = "200", description = "Retorna tarefas do usuário")
     })
     @GetMapping("/")
-    public List<Task> list(HttpServletRequest request) {
-        var idUser = request.getAttribute("idUser");
-        var tasks = this.taskRepository.findByIdUser((UUID) idUser);
-        return tasks;
+    public ResponseEntity<List<Task>> listByUser(HttpServletRequest request) {
+        UUID idUser = (UUID) request.getAttribute("idUser");
+        List<Task> list = this.taskService.listByUser(idUser);
+
+        return ResponseEntity.ok().body(list);
     }
 
     @Operation(description = "Edita a tarefa")

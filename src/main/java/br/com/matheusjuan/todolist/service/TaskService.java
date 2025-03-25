@@ -1,6 +1,7 @@
 package br.com.matheusjuan.todolist.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,6 +36,12 @@ public class TaskService {
         }
 
         return this.taskRepository.save(new Task(taskRequest, idUser));
+    }
+
+    public List<Task> listByUser(UUID idUser) {
+        List<Task> list = this.taskRepository.findByIdUser(idUser).orElse(new ArrayList<>());
+
+        return list;
     }
 
 }

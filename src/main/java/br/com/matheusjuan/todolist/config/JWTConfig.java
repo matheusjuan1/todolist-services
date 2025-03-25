@@ -11,7 +11,7 @@ import jakarta.annotation.PostConstruct;
 
 @Configuration
 @ConfigurationProperties(prefix = "jwt")
-public class JWTConfig {
+public class JwtConfig {
     
     private String secretKey;
 
