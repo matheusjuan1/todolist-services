@@ -1,5 +1,7 @@
 package br.com.matheusjuan.todolist.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,10 +10,13 @@ import at.favre.lib.crypto.bcrypt.BCrypt.Result;
 import br.com.matheusjuan.todolist.model.dto.auth.AuthRequestDTO;
 import br.com.matheusjuan.todolist.model.dto.auth.RegisterRequestDTO;
 import br.com.matheusjuan.todolist.model.dto.user.UserResponseDTO;
+import br.com.matheusjuan.todolist.model.enums.RoleName;
 import br.com.matheusjuan.todolist.error.UserExceptions.UserAlreadyExistsException;
 import br.com.matheusjuan.todolist.error.UserExceptions.UserNotFoundException;
+import br.com.matheusjuan.todolist.model.Role;
 import br.com.matheusjuan.todolist.model.User;
 import br.com.matheusjuan.todolist.repository.UserRepository;
+import br.com.matheusjuan.todolist.security.JWTCreator;
 
 @Service
 public class AuthService {
@@ -20,28 +25,32 @@ public class AuthService {
     private UserRepository userRepository;
 
     @Autowired
-    private JwtService jwtService;
+    private JWTCreator jwtCreator;
 
     public UserResponseDTO registerUser(RegisterRequestDTO registerRequest) {
 
-        if (userRepository.findByUsername(registerRequest.username()).isPresent()) {
+        if (userRepository.existsByUsername(registerRequest.username())) {
             throw new UserAlreadyExistsException();
         }
 
         String passwordHashred = BCrypt.withDefaults().hashToString(12, registerRequest.password().toCharArray());
 
-        User user = new User(registerRequest, passwordHashred);
+        User user = new User(
+                registerRequest,
+                passwordHashred,
+                List.of(Role.builder().name(RoleName.ROLE_CUSTOMER).build()));
 
         User newUser = userRepository.save(user);
 
-        String token = jwtService.generateToken(newUser.getId());
+        String token = jwtCreator.generateToken(newUser.getId());
 
         return new UserResponseDTO(
                 newUser.getId(),
                 newUser.getUsername(),
                 newUser.getName(),
                 token,
-                newUser.getCreatedAt());
+                newUser.getCreatedAt(),
+                newUser.getRoles());
     }
 
     public UserResponseDTO authenticate(AuthRequestDTO authRequest) {
@@ -54,13 +63,14 @@ public class AuthService {
             throw new UserNotFoundException("Credenciais inválidas");
         }
 
-        String token = jwtService.generateToken(user.getId());
+        String token = jwtCreator.generateToken(user.getId());
 
         return new UserResponseDTO(
                 user.getId(),
                 user.getUsername(),
                 user.getName(),
                 token,
-                user.getCreatedAt());
+                user.getCreatedAt(),
+                user.getRoles());
     }
 }

@@ -45,10 +45,11 @@ public class User {
     @JoinTable(name = "tb_users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-    public User(RegisterRequestDTO dto, String passwordHashred) {
+    public User(RegisterRequestDTO dto, String passwordHashred, List<Role> roles) {
         this.username = dto.username();
         this.name = dto.name();
         this.password = passwordHashred;
+        this.roles = roles;
     }
 
     public void setUsername(String username) throws Exception {

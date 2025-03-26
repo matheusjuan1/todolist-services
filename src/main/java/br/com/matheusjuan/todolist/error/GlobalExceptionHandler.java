@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.com.matheusjuan.todolist.model.dto.error.ErrorResponseDTO;
-import br.com.matheusjuan.todolist.error.AuthExceptions.JwtAuthenticationException;
+import br.com.matheusjuan.todolist.error.AuthExceptions.JWTCreationException;
+import br.com.matheusjuan.todolist.error.AuthExceptions.JWTVerificationException;
 import br.com.matheusjuan.todolist.error.UserExceptions.UserAlreadyExistsException;
 import br.com.matheusjuan.todolist.error.UserExceptions.UserNotFoundException;
 import br.com.matheusjuan.todolist.error.TaskExceptions.TaskDateException;
@@ -33,9 +34,15 @@ public class GlobalExceptionHandler {
 
     // AUTH EXCEPTIONS
 
-    @ExceptionHandler(JwtAuthenticationException.class)
-    public ResponseEntity<ErrorResponseDTO> handleJwtAuthenticationException(JwtAuthenticationException e) {
-        ErrorResponseDTO error = new ErrorResponseDTO(1000, e.getMessage(), "INVALID_JWT");
+    @ExceptionHandler(JWTCreationException.class)
+    public ResponseEntity<ErrorResponseDTO> handleJWTCreationException(JWTCreationException e) {
+        ErrorResponseDTO error = new ErrorResponseDTO(1001, e.getMessage(), "JWT_ERROR_CREATE");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
+    @ExceptionHandler(JWTVerificationException.class)
+    public ResponseEntity<ErrorResponseDTO> handleJWTVerificationException(JWTVerificationException e) {
+        ErrorResponseDTO error = new ErrorResponseDTO(1001, e.getMessage(), "INVALID_JWT");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
