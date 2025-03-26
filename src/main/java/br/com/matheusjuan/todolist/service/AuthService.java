@@ -49,8 +49,7 @@ public class AuthService {
                 newUser.getUsername(),
                 newUser.getName(),
                 token,
-                newUser.getCreatedAt(),
-                newUser.getRoles());
+                newUser.getCreatedAt());
     }
 
     public UserResponseDTO authenticate(AuthRequestDTO authRequest) {
@@ -70,7 +69,6 @@ public class AuthService {
                 user.getUsername(),
                 user.getName(),
                 token,
-                user.getCreatedAt(),
-                user.getRoles());
+                user.getCreatedAt());
     }
 }
