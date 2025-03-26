@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(JWTCreationException.class)
     public ResponseEntity<ErrorResponseDTO> handleJWTCreationException(JWTCreationException e) {
-        ErrorResponseDTO error = new ErrorResponseDTO(1001, e.getMessage(), "JWT_ERROR_CREATE");
+        ErrorResponseDTO error = new ErrorResponseDTO(1000, e.getMessage(), "JWT_ERROR_CREATE");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
