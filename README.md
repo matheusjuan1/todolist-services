@@ -19,6 +19,40 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Bcrypt](https://github.com/patrickfav/bcrypt)
 - [JWT](https://github.com/auth0/java-jwt)
 
+## 🧾 Diagrama de Classes
+
+```mermaid
+classDiagram
+    class User {
+        UUID id
+        String username
+        String name
+        String password
+        LocalDateTime createdAt
+        List~Role~ roles
+    }
+
+    class Task {
+        UUID id
+        String title
+        String description
+        LocalDateTime startAt
+        LocalDateTime endAt
+        Integer priority
+        LocalDateTime createdAt
+        int version
+        User user  
+    }
+
+    class Role {
+        UUID id
+        String name
+    }
+
+    User "1" *-- "N" Task
+    User "N" --* "N" Role
+```
+
 ## 🚀 Como executar a API
 ### Pré-requisitos
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas: **Java 17+**, **Gradle 8+**. Além disto é bom ter um editor para trabalhar com o código como [**VSCode**](https://code.visualstudio.com/)
