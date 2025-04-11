@@ -35,7 +35,7 @@ public class TaskController {
     })
     @PostMapping("/")
     public ResponseEntity<Task> create(@RequestBody TaskRequestDTO taskRequest, HttpServletRequest request) {
-        UUID idUser = (UUID) request.getAttribute("idUser");
+        UUID idUser = UUID.fromString((String) request.getAttribute("idUser"));
         Task task = this.taskService.create(taskRequest, idUser);
 
         return ResponseEntity.ok().body(task);
@@ -47,7 +47,7 @@ public class TaskController {
     })
     @GetMapping("/")
     public ResponseEntity<List<Task>> listByUser(HttpServletRequest request) {
-        UUID idUser = (UUID) request.getAttribute("idUser");
+        UUID idUser = UUID.fromString((String) request.getAttribute("idUser"));
         List<Task> list = this.taskService.listByUser(idUser);
 
         return ResponseEntity.ok().body(list);
@@ -62,7 +62,7 @@ public class TaskController {
     @PutMapping("/{id}")
     public ResponseEntity<Task> update(@RequestBody Task taskRequest, HttpServletRequest request,
             @PathVariable UUID id) {
-        UUID idUser = (UUID) request.getAttribute("idUser");
+        UUID idUser = UUID.fromString((String) request.getAttribute("idUser"));
         Task taskUpdated = this.taskService.update(taskRequest, id, idUser);
 
         return ResponseEntity.ok().body(taskUpdated);
