@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.matheusjuan.todolist.model.Task;
 import br.com.matheusjuan.todolist.model.dto.task.TaskRequestDTO;
+import br.com.matheusjuan.todolist.model.dto.task.TaskResponseDTO;
 import br.com.matheusjuan.todolist.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -34,9 +34,9 @@ public class TaskController {
             @ApiResponse(responseCode = "400", description = "A data de início/data de término deve ser maior do que a data atual ou A data de início deve ser menor do que a data de término")
     })
     @PostMapping("/")
-    public ResponseEntity<Task> create(@RequestBody TaskRequestDTO taskRequest, HttpServletRequest request) {
-        UUID idUser = UUID.fromString((String) request.getAttribute("idUser"));
-        Task task = this.taskService.create(taskRequest, idUser);
+    public ResponseEntity<TaskResponseDTO> create(@RequestBody TaskRequestDTO taskRequest, HttpServletRequest request) {
+        UUID idUser = (UUID) request.getAttribute("idUser");
+        TaskResponseDTO task = this.taskService.create(taskRequest, idUser);
 
         return ResponseEntity.ok().body(task);
     }
@@ -46,9 +46,9 @@ public class TaskController {
             @ApiResponse(responseCode = "200", description = "Retorna tarefas do usuário")
     })
     @GetMapping("/")
-    public ResponseEntity<List<Task>> listByUser(HttpServletRequest request) {
-        UUID idUser = UUID.fromString((String) request.getAttribute("idUser"));
-        List<Task> list = this.taskService.listByUser(idUser);
+    public ResponseEntity<List<TaskResponseDTO>> listByUser(HttpServletRequest request) {
+        UUID idUser = (UUID) request.getAttribute("idUser");
+        List<TaskResponseDTO> list = this.taskService.listByUser(idUser);
 
         return ResponseEntity.ok().body(list);
     }
@@ -60,10 +60,10 @@ public class TaskController {
             @ApiResponse(responseCode = "404", description = "Tarefa não encontrada")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Task> update(@RequestBody Task taskRequest, HttpServletRequest request,
+    public ResponseEntity<TaskResponseDTO> update(@RequestBody TaskRequestDTO taskRequest, HttpServletRequest request,
             @PathVariable UUID id) {
-        UUID idUser = UUID.fromString((String) request.getAttribute("idUser"));
-        Task taskUpdated = this.taskService.update(taskRequest, id, idUser);
+        UUID idUser = (UUID) request.getAttribute("idUser");
+        TaskResponseDTO taskUpdated = this.taskService.update(taskRequest, id, idUser);
 
         return ResponseEntity.ok().body(taskUpdated);
     }
