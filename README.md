@@ -30,6 +30,7 @@ classDiagram
         String password
         LocalDateTime createdAt
         List~Role~ roles
+        List~Task~ tasks
     }
 
     class Task {
@@ -64,15 +65,15 @@ git clone https://github.com/matheusjuan1/todolist-services
 # Acesse a pasta do projeto no terminal/cmd
 cd todolist-services
 
-# Execute a aplicação (escolha o comando conforme seu sistema operacional)
+# Execute a aplicação no perfil de desenvolvimento (escolha o comando conforme seu sistema operacional)
 
-# Para Linux/macOS:
-./gradlew bootRun
+## Para Linux/macOS:
+./gradlew bootRun --args='--spring.profiles.active=dev'
 
-# Para Windows:
-gradlew.bat bootRun
+## Para Windows:
+gradlew.bat bootRun --args="--spring.profiles.active=dev"
 
-# O servidor inciará na porta:8080 - acesse http://localhost:8080 
+# O servidor iniciará na porta:8080 - acesse http://localhost:8080
 ```
 ## 🗂️ Documentação
 Você pode acessar a documentação interativa da API utilizando o [Swagger UI](https://swagger.io/tools/swagger-ui/).
