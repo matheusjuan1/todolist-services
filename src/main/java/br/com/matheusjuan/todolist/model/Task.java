@@ -5,11 +5,16 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.matheusjuan.todolist.model.dto.task.TaskRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,7 +39,11 @@ public class Task {
 
     @Column(nullable = false)
     private Integer priority;
-    private UUID idUser;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -43,26 +52,12 @@ public class Task {
     private int version;
 
 
-    public Task(TaskRequestDTO dto, UUID idUser) {
+    public Task(TaskRequestDTO dto, User user) {
         this.title = dto.title();
         this.description = dto.description();
         this.startAt = dto.endAt();
         this.endAt = dto.endAt();
         this.priority = dto.priority();
-        this.idUser = idUser;
-    }
-
-    public void setTitle(String title) throws Exception {
-        if (title.length() > 50) {
-            throw new Exception("O campo Título deve conter no máximo 50 caracteres");
-        }
-        this.title = title;
-    }
-
-    public void setDescription(String description) throws Exception {
-        if (description.length() > 255) {
-            throw new Exception("O campo Título deve conter no máximo 255 caracteres");
-        }
-        this.description = description;
+        this.user = user;
     }
 }

@@ -1,7 +1,6 @@
 package br.com.matheusjuan.todolist.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,9 +9,13 @@ import org.springframework.stereotype.Service;
 
 import br.com.matheusjuan.todolist.error.TaskExceptions;
 import br.com.matheusjuan.todolist.error.UserExceptions;
+import br.com.matheusjuan.todolist.error.UserExceptions.UserNotFoundException;
 import br.com.matheusjuan.todolist.model.Task;
+import br.com.matheusjuan.todolist.model.User;
 import br.com.matheusjuan.todolist.model.dto.task.TaskRequestDTO;
+import br.com.matheusjuan.todolist.model.dto.task.TaskResponseDTO;
 import br.com.matheusjuan.todolist.repository.TaskRepository;
+import br.com.matheusjuan.todolist.repository.UserRepository;
 import br.com.matheusjuan.todolist.util.Util;
 
 @Service
@@ -21,7 +24,13 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    public Task create(TaskRequestDTO taskRequest, UUID idUser) {
+    @Autowired
+    private UserRepository userRepository;
+
+    public TaskResponseDTO create(TaskRequestDTO taskRequest, UUID idUser) {
+        User user = this.userRepository.findById(idUser)
+                .orElseThrow(() -> new UserNotFoundException());
+
         LocalDateTime currentDate = LocalDateTime.now();
 
         if (currentDate.isAfter(taskRequest.startAt()) || currentDate.isAfter(taskRequest.endAt())) {
@@ -37,27 +46,29 @@ public class TaskService {
             throw new TaskExceptions.TaskPriorityException();
         }
 
-        return this.taskRepository.save(new Task(taskRequest, idUser));
+        return new TaskResponseDTO(taskRepository.save(new Task(taskRequest, user)));
     }
 
-    public List<Task> listByUser(UUID idUser) {
-        List<Task> list = this.taskRepository.findByIdUser(idUser).orElse(new ArrayList<>());
+    public List<TaskResponseDTO> listByUser(UUID idUser) {
+        List<Task> list = this.taskRepository.findAllByUserId(idUser);
 
-        return list;
+        return list.stream().map(TaskResponseDTO::new).toList();
     }
 
-    public Task update(Task taskRequest, UUID idTask, UUID idUser) {
+    public TaskResponseDTO update(TaskRequestDTO taskRequest, UUID idTask, UUID idUser) {
         Task task = this.taskRepository.findById(idTask)
                 .orElseThrow(() -> new TaskExceptions.TaskNotFoundException());
 
-        if (!task.getIdUser().equals(idUser)) {
+        User user = this.userRepository.findById(idUser)
+                .orElseThrow(() -> new UserNotFoundException());
+
+        if (!task.getUser().getId().equals(user.getId())) {
             throw new UserExceptions.UserUnauthorizedException("Usuário não tem permissão para alterar essa tarefa");
         }
 
         Util.copyNonNullProperties(taskRequest, task);
-        Task taskUpdated = this.taskRepository.save(task);
 
-        return taskUpdated;
+        return new TaskResponseDTO(taskRepository.save(task));
     }
 
 }
