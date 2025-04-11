@@ -48,7 +48,8 @@ public class AuthFilter extends OncePerRequestFilter {
                 String token = recoveryToken(request);
                 if (token != null) {
                     String subject = jwtCreator.getSubjectFromToken(token);
-                    User user = userRepository.findById(UUID.fromString(subject))
+                    UUID idUser = UUID.fromString(subject);
+                    User user = userRepository.findById(idUser)
                             .orElseThrow(() -> new UserNotFoundException());
                     UserDetailsImpl userDetails = new UserDetailsImpl(user);
 
@@ -57,8 +58,7 @@ public class AuthFilter extends OncePerRequestFilter {
                             null,
                             userDetails.getAuthorities());
 
-                    request.setAttribute("idUser", subject);
-
+                    request.setAttribute("idUser", idUser);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 } else {
                     throw new JWTVerificationException();
@@ -70,7 +70,6 @@ public class AuthFilter extends OncePerRequestFilter {
                 handleException(response, 1001, e.getMessage(), "INVALID_JWT");
                 return;
             }
-
         }
         filterChain.doFilter(request, response);
     }

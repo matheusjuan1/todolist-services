@@ -22,14 +22,14 @@ dependencies {
     // DevTools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    // Testes
+    // Tests
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // Banco de dados
+    // Database
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.postgresql:postgresql'
 
@@ -41,6 +41,12 @@ dependencies {
 
     // Swagger/OpenAPI
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4'
+}
+
+tasks.jar {
+    manifest {
+        attribute["Main-Class"] = "br.com.matheusjuan.todolist.TodolistApplication"
+    }
 }
 
 tasks.test {

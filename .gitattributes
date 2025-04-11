@@ -1,2 +1,29 @@
-/mvnw text eol=lf
+# Força arquivos shell script (como ./gradlew) a usarem LF
+*.sh text eol=lf
+
+# Força arquivos de script do Windows a usarem CRLF
 *.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Arquivos de texto tratados como texto normal com normalização de fim de linha
+*.java text
+*.kt text
+*.gradle text
+*.md text
+*.yml text
+*.yaml text
+*.json text
+*.xml text
+*.properties text
+*.gitignore text
+*.gitattributes text
+*.txt text
+
+# Binários (não converter fim de linha nesses)
+*.jar binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary

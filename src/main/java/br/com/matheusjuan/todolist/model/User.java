@@ -1,6 +1,7 @@
 package br.com.matheusjuan.todolist.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -45,24 +47,13 @@ public class User {
     @JoinTable(name = "tb_users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks = new ArrayList<>();
+
     public User(RegisterRequestDTO dto, String passwordHashred, List<Role> roles) {
         this.username = dto.username();
         this.name = dto.name();
         this.password = passwordHashred;
         this.roles = roles;
-    }
-
-    public void setUsername(String username) throws Exception {
-        if (username.length() > 20) {
-            throw new Exception("O campo Username deve conter no máximo 20 caracteres");
-        }
-        this.username = username;
-    }
-
-    public void setName(String name) throws Exception {
-        if (name.length() > 255) {
-            throw new Exception("O campo Nome deve conter no máximo 255 caracteres");
-        }
-        this.name = name;
     }
 }
