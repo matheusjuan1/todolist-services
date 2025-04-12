@@ -44,12 +44,7 @@ public class AuthService {
 
         String token = jwtCreator.generateToken(newUser.getId());
 
-        return new UserResponseDTO(
-                newUser.getId(),
-                newUser.getUsername(),
-                newUser.getName(),
-                token,
-                newUser.getCreatedAt());
+        return new UserResponseDTO(newUser, token);
     }
 
     public UserResponseDTO authenticate(AuthRequestDTO authRequest) {
@@ -64,11 +59,6 @@ public class AuthService {
 
         String token = jwtCreator.generateToken(user.getId());
 
-        return new UserResponseDTO(
-                user.getId(),
-                user.getUsername(),
-                user.getName(),
-                token,
-                user.getCreatedAt());
+        return new UserResponseDTO(user, token);
     }
 }

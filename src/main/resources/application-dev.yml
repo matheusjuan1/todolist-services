@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:todolist
+    driver-class-name: org.h2.Driver
+    username: admin
+    password: admin
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+
+security:
+  config:
+    jwt:
+      secretKey: JWT_SECRET_KEY_TODOLIST_DEV
+      issuer: todolist-services-dev
