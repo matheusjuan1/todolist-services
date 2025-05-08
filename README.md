@@ -8,16 +8,16 @@
 Esta API foi desenvolvida em Spring Boot para gerenciar tarefas em um aplicativo To-Do List. Ela oferece endpoints seguros e eficientes para operações CRUD, permitindo a criação, leitura, atualização e exclusão de tarefas.
 
 <div align="center">
-     <img src="https://img.shields.io/badge/Java-17-blue">
-     <img src="https://img.shields.io/badge/Gradle-8.13-blue">
-     <img src="https://img.shields.io/badge/Spring%20Boot-3.4.3-brightgreen">
-     <img src="https://img.shields.io/badge/Lombok-1.18.36-red">
-     <img src="https://img.shields.io/badge/H2-2.3.232-darkblue">
-     <img src="https://img.shields.io/badge/PostgreSQL-42.7.5-blue">
-     <img src="https://img.shields.io/badge/Bcrypt-0.10.2-lightgrey">
-     <img src="https://img.shields.io/badge/JWT-4.4.0-BA55D3">
-     <img src="https://img.shields.io/badge/JUnit-5.11.4-darkred">
-     <img src="https://img.shields.io/badge/Mockito-5.14.2-darkgreen">
+     <img src="https://img.shields.io/badge/Java-v17-blue">
+     <img src="https://img.shields.io/badge/Gradle-v8.13-blue">
+     <img src="https://img.shields.io/badge/Spring%20Boot-v3.4.3-brightgreen">
+     <img src="https://img.shields.io/badge/Lombok-v1.18.36-red">
+     <img src="https://img.shields.io/badge/H2-v2.3.232-darkblue">
+     <img src="https://img.shields.io/badge/PostgreSQL-v42.7.5-blue">
+     <img src="https://img.shields.io/badge/Bcrypt-v0.10.2-lightgrey">
+     <img src="https://img.shields.io/badge/JWT-v4.4.0-BA55D3">
+     <img src="https://img.shields.io/badge/JUnit-v5.11.4-darkred">
+     <img src="https://img.shields.io/badge/Mockito-v5.14.2-darkgreen">
 </div>
 
 ## 🚀 Como executar a API
