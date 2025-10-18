@@ -42,41 +42,6 @@ gradlew.bat bootRun --args="--spring.profiles.active=dev"
 # O servidor iniciará na porta:8080 - acesse http://localhost:8080
 ```
 
-## 🧾 Diagrama de Classes
-
-```mermaid
-classDiagram
-    class User {
-        UUID id
-        String username
-        String name
-        String password
-        LocalDateTime createdAt
-        List~Role~ roles
-        List~Task~ tasks
-    }
-
-    class Task {
-        UUID id
-        String title
-        String description
-        LocalDateTime startAt
-        LocalDateTime endAt
-        Integer priority
-        LocalDateTime createdAt
-        int version
-        User user  
-    }
-
-    class Role {
-        UUID id
-        String name
-    }
-
-    User "1" *-- "N" Task
-    User "N" --* "N" Role
-```
-
 ## 🗂️ Documentação
 Você pode acessar a documentação interativa da API utilizando o [Swagger UI](https://swagger.io/tools/swagger-ui/).
 #### Passos
