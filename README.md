@@ -26,7 +26,7 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 <br></br>
 ```shell
 # Clone este repositório
-git clone https://github.com/matheusjuan1/todolist-services
+git clone https://github.com/matheusjuanf/todolist-services
 
 # Acesse a pasta do projeto no terminal/cmd
 cd todolist-services
@@ -56,7 +56,7 @@ Isso irá exibir a interface gráfica do [Swagger](https://swagger.io/tools/swag
 
 Este projeto está sob a licença MIT.
 
-Feito por Matheus Juan. [Entre em contato](https://www.linkedin.com/in/matheusjuan1/)
+Feito por Matheus Juan. [Entre em contato](https://www.linkedin.com/in/matheusjuanf/)
 
 <div align="center">
      <img width="60" alt="Image" src="https://github.com/user-attachments/assets/efd1d014-148c-4ae8-8dbd-81850fadf9ba" />
